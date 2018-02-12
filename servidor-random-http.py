@@ -31,8 +31,6 @@ mySocket.listen(5)
 # Accept connections, read incoming data, and answer back an HTML page
 #  (in an almost-infinite loop; the loop can be stopped with Ctrl+C)
 
-variable = random.randint(1,1482648)
-print (variable)
 try:
     while True:
         print('Waiting for connections')
@@ -40,12 +38,12 @@ try:
         print('Request received:')
         print(recvSocket.recv(2048))
         print('Answering back...')
+        variable = random.randint(1,1482648)
+        url="<a href='http://localhost:1234/"+str(variable)+"'>Dame otra</a>"
+        #print(url)
         recvSocket.send(b"HTTP/1.1 200 OK\r\n\r\n" +
                         b"<html><body><h1>Hello World!</h1>" +
-                        b"<p>And in particular hello to you, " +
-                        bytes(address[0], 'utf-8') +
-                        b"</p><img  src='https://gsyc.urjc.es/master-ant/images/gsyc.gif'\> " +
-                        b"<a href='http://localhost:1234/'> Dame otra </a>"  +
+                        url.encode() +
                         b"</body></html>" +
                         b"\r\n")
         recvSocket.close()
